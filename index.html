@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selector</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+  <div id="alerta" class="alert hide" role="alert">
+    <span class="message-alert"></span>
+  </div>
+    <form method="POST" action="" id="contactForm">
+        <input type="text"  id="nombre" placeholder="Nombre">
+        <input type="email"  id="email" placeholder="Email"> <br>
+        <input type="text"  id="asunto" placeholder="Asunto">
+        <input type="tel"  id="tel" placeholder="Telefono"> <br>
+        <select  id="selectienda">
+            <option value="--" selected>-- Selecciona Tienda --</option>
+          	<option value="TOLUCA">TOLUCA</option>
+          	<option value="TIJUANA">TIJUANA</option>
+          	<option value="VILLAHERMOSA 1">VILLAHERMOSA 1</option>
+          	<option value="VILLAHERMOSA 2">VILLAHERMOSA 2</option>
+          	<option value="TIENDA EN LÍNEA">TIENDA EN LÍNEA</option>
+            <option value="PAULO">PAULO</option>
+            <option value="SERGIO">SERGIO</option>
+        </select> <br>
+        <textarea  id="comentario" cols="30" rows="10"></textarea><br>
+        <button type="button"  id="enviar">Enviar</button>
+    </form>
+</body>
+<script>
+    $('#enviar').click(function(){
+        let nombre = document.getElementById('nombre').value;
+        let email = document.getElementById('email').value;
+        let asunto = document.getElementById('asunto').value;
+        let telefono = document.getElementById('tel').value;
+        let selectienda = document.getElementById('selectienda').value;
+        let comentario = document.getElementById('comentario').value;
+
+        let dataForm ="nombre="+nombre+"&email="+email+"&asunto="+asunto
+            +"&tel="+telefono+"&selectienda="+selectienda+"&comentario="+comentario;
+
+            $.ajax({
+                type:'POST',
+                url:'data.php',
+                data: dataForm,
+            })
+            .done(function(){
+              $('#contactForm').trigger("reset");
+              $("#alerta").removeClass("hide").addClass("alert-success");
+              $(".message-alert").html("El correo ha sido enviado.");
+            })
+            .fail(function(){
+                $("#alerta").removeClass("hide").addClass("alert-danger");
+                $(".message-alert").html("Intente otra vez.");
+            })
+    })
+</script>
+<style media="screen">
+  .hide{
+    display: none;
+  }
+</style>
+</html>
